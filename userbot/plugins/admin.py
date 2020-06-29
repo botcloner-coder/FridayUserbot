@@ -5,7 +5,7 @@
 """
 Userbot module to help you manage a group
 """
-
+import asyncio
 from asyncio import sleep
 from os import remove
 
@@ -29,8 +29,8 @@ from userbot.utils import admin_cmd
 # =================== CONSTANT ===================
 PP_TOO_SMOL = "`The image is too small`"
 PP_ERROR = "`Failure while processing the image`"
-NO_ADMIN = "`I am not an admin nub nibba!`"
-NO_PERM = "`I don't have sufficient permissions! This is so sed. Alexa play Tera Baap Aaya`"
+NO_ADMIN = "`I ain't admin here, tell the owner it's Tony, leader of the fuckin AVENGERS`"
+NO_PERM = "`I don't have sufficient permissions! Vishnu, the lord doesn't need permissions`"
 NO_SQL = "`Running on Non-SQL mode!`"
 
 CHAT_PP_CHANGED = "`Chat Picture Changed`"
@@ -74,7 +74,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 async def set_group_photo(gpic):
     """ For .setgpic command, changes the picture of a group """
     if not gpic.is_group:
-        await gpic.edit("`I don't think this is a group.`")
+        await gpic.edit("`This ain't a group nigga.`")
         return
     replymsg = await gpic.get_reply_message()
     chat = await gpic.get_chat()
@@ -133,7 +133,7 @@ async def promote(promt):
     await promt.edit("`Promoting...`")
     user, rank = await get_user_from_event(promt)
     if not rank:
-        rank = "MemeMaster"  # Just in case.
+        rank = "Morgan Stark"  # Just in case.
     if user:
         pass
     else:
@@ -143,7 +143,7 @@ async def promote(promt):
     try:
         await promt.client(
             EditAdminRequest(promt.chat_id, user.id, new_rights, rank))
-        await promt.edit("`Promoted Successfully! Now gib Party 🥳`")
+        await promt.edit("`Welcome to Avengers, get ready to beat asses 😌`")
 
     # If Telethon spit BadRequestError, assume
     # we don't have Promote permission
@@ -200,7 +200,7 @@ async def demote(dmod):
     except BadRequestError:
         await dmod.edit(NO_PERM)
         return
-    await dmod.edit("`Demoted this retard Successfully!`")
+    await dmod.edit("`Once an avenger, now just a group member 😂😂`")
 
     # Announce to the logging group if we have demoted successfully
     if BOTLOG:
@@ -232,7 +232,7 @@ async def ban(bon):
         return
 
     # Announce that we're going to whack the pest
-    await bon.edit("`Whacking the pest!`")
+    await bon.edit("`Snaps fingers...`")
 
     try:
         await bon.client(EditBannedRequest(bon.chat_id, user.id,
@@ -253,9 +253,9 @@ async def ban(bon):
     # is done gracefully
     # Shout out the ID, so that fedadmins can fban later
     if reason:
-        await bon.edit(f"Loser `{str(user.id)}` was banned !!\nReason: {reason}")
+        await bon.edit(f"Thanos aka `{str(user.id)}` dead !!\nReason: {reason}")
     else:
-        await bon.edit(f"Bitch `{str(user.id)}` was banned !!")
+        await bon.edit(f"Thanos aka`{str(user.id)}` was banned !!")
     # Announce to the logging group if we have banned the person
     # successfully!
     if BOTLOG:
@@ -293,7 +293,7 @@ async def nothanos(unbon):
     try:
         await unbon.client(
             EditBannedRequest(unbon.chat_id, user.id, UNBAN_RIGHTS))
-        await unbon.edit("```Unbanned Successfully. Granting another chance.```")
+        await unbon.edit("```Unbanned Successfully, you're under the mercy of Stark Industries```")
 
         if BOTLOG:
             await unbon.client.send_message(
@@ -355,6 +355,8 @@ async def spider(spdr):
                 await spdr.edit(f"`Safely taped !!`\nReason: {reason}")
             else:
                 await spdr.edit("`Safely taped !!`")
+                await asyncio.sleep(3)   
+                await spdr.delete()
 
             # Announce to logging group
             if BOTLOG:
@@ -405,6 +407,8 @@ async def unmoot(unmot):
             await unmot.client(
                 EditBannedRequest(unmot.chat_id, user.id, UNBAN_RIGHTS))
             await unmot.edit("```Unmuted Successfully```")
+            await asyncio.sleep(1)
+            await unmot.delete()
         except UserIdInvalidError:
             await unmot.edit("`Uh oh my unmute logic broke!`")
             return
@@ -545,21 +549,21 @@ async def gspider(gspdr):
 async def rm_deletedacc(show):
     """ For .delusers command, list all the ghost/deleted accounts in a chat. """
     if not show.is_group:
-        await show.edit("`I don't think this is a group.`")
+        await show.edit("`It aint a group bitch`")
         return
     con = show.pattern_match.group(1)
     del_u = 0
-    del_status = "`No deleted accounts found, Group is cleaned as Hell`"
+    del_status = "`No retards found, hurray!`"
 
     if con != "clean":
-        await show.edit("`Searching for zombie accounts...`")
+        await show.edit("`Searching for retards...`")
         async for user in show.client.iter_participants(show.chat_id,
                                                         aggressive=True):
             if user.deleted:
                 del_u += 1
                 await sleep(1)
         if del_u > 0:
-            del_status = f"Found **{del_u}** deleted account(s) in this group,\
+            del_status = f"Found **{del_u}** deleted account(s)/retard(s) in this group,\
             \nclean them by using .delusers clean"
 
         await show.edit(del_status)
@@ -572,10 +576,10 @@ async def rm_deletedacc(show):
 
     # Well
     if not admin and not creator:
-        await show.edit("`I am not an admin here!`")
+        await show.edit("`I ain't admin here, tell the owner it's Tony, leader of the fuckin AVENGERS!`")
         return
 
-    await show.edit("`Deleting deleted accounts...\nOh I can do that?!?!`")
+    await show.edit("`Removing retards...\nHELL YEAHHH`")
     del_u = 0
     del_a = 0
 
@@ -585,7 +589,7 @@ async def rm_deletedacc(show):
                 await show.client(
                     EditBannedRequest(show.chat_id, user.id, BANNED_RIGHTS))
             except ChatAdminRequiredError:
-                await show.edit("`I don't have ban rights in this group`")
+                await show.edit("`WTF, NO BAN RIGHTS FOR TONY`")
                 return
             except UserAdminInvalidError:
                 del_u -= 1
@@ -701,7 +705,7 @@ async def kick(usr):
         await usr.edit("`Couldn't fetch user.`")
         return
 
-    await usr.edit("`Kicking...`")
+    await usr.edit("`Nikal lawde...`")
 
     try:
         await usr.client.kick_participant(usr.chat_id, user.id)
@@ -712,11 +716,11 @@ async def kick(usr):
 
     if reason:
         await usr.edit(
-            f"`Kicked` [{user.first_name}](tg://user?id={user.id})`!`\nReason: {reason}"
+            f"`Meet Lucifer in hell cause` [{user.first_name}](tg://user?id={user.id})`!`\nReason: {reason}"
         )
     else:
         await usr.edit(
-            f"`Kicked` [{user.first_name}](tg://user?id={user.id})`!`")
+            f"`Meet Lucifer in hell now` [{user.first_name}](tg://user?id={user.id})`!`")
 
     if BOTLOG:
         await usr.client.send_message(
