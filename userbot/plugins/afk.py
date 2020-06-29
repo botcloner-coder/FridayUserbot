@@ -61,10 +61,10 @@ async def _(event):
             afk_time = datetime.datetime.now()  # pylint:disable=E0602
         USER_AFK = f"yes: {reason}"  # pylint:disable=E0602
         if reason:
-            await event.edit(f"My Boss Is Going , The Reason is {reason}")
+            await event.edit(f"I'm Jarvis, and my boss is afk casue {reason}")
         else:
-            await event.edit(f"My Boss is Going")
-        await asyncio.sleep(5)
+            await event.edit(f"Tony is afk")
+        await asyncio.sleep(3)
         await event.delete()
         try:
             await borg.send_message(  # pylint:disable=E0602
@@ -121,12 +121,12 @@ async def on_afk(event):
             else:
                 afk_since = f"`{int(seconds)}s` **ago**"
         msg = None
-        message_to_reply = f"My Master Has Been Gone For {afk_since}\nWhere He Is: **It's A Secret 🤫** " + \
-            f"\n\n__ I'll back in a few Light years__\n**REASON**: {reason}" \
+        message_to_reply = f"My Master Has Been Gone For {afk_since}\nWhere He Is: **Makin new Mark suit bitches 😉** " + \
+            f"\n\n__ I'll back if Russo Brothers agree ;) __\n**REASON**: {reason}" \
             if reason \
-            else f"**Important Notice**\n\n[This User Is Ded Forever...](https://telegra.ph//file/a53fa950ff31781d5930a.jpg) "
+            else f"**Important Notice**\n\n[After all, Thanos managed to kill me...](https://telegra.ph//file/a53fa950ff31781d5930a.jpg) "
         msg = await event.reply(message_to_reply)
-        await asyncio.sleep(5)
+        await asyncio.sleep(3)
         if event.chat_id in last_afk_message:  # pylint:disable=E0602
             await last_afk_message[event.chat_id].delete()  # pylint:disable=E0602
         last_afk_message[event.chat_id] = msg  # pylint:disable=E0602
